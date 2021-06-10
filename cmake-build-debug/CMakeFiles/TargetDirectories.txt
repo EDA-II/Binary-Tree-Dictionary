@@ -1,0 +1,3 @@
+/Users/James/CLionProjects/lab2_BST_students/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/James/CLionProjects/lab2_BST_students/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/James/CLionProjects/lab2_BST_students/cmake-build-debug/CMakeFiles/Lab2Students.dir
