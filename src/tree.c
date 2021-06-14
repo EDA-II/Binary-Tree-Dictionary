@@ -131,6 +131,33 @@ char *find_in_tree(Tree *t, char *word) {
 }
 
 Node* deleteNode(Node *root, char *word) {
+    if (root->right != NULL) {
+        return deleteNode(root->right, word);
+    } else {
+        Node* tmp = root;
+
+    }
+
+    Node* node_to_delete = findNode(root, word);
+    if (node_to_delete == NULL) {
+        return NULL;
+    } else {
+        Node* tmp = node_to_delete;
+        // The case where node is a leaf is implicit in these two conditions
+        if (node_to_delete->right == NULL) { // The node only has a left subtree
+            node_to_delete = node_to_delete->left;
+            free(tmp);
+        } else if (node_to_delete->left == NULL) { // The node only has a right subtree
+            node_to_delete = node_to_delete->right;
+            free(tmp);
+        } else {
+            // Use auxiliary function
+            char *new_data = get_max(&node_to_delete->left);
+            strcpy(node_to_delete->data, new_data);
+        }
+    }
+    return root;
+
 
 }
 
