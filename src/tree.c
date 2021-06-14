@@ -130,6 +130,23 @@ char *find_in_tree(Tree *t, char *word) {
     return &elem->data;
 }
 
+char* get_max(Node **root) {
+    if ((*root)->right != NULL){
+        return get_max(&(*root)->right);
+    } else {
+        int length_data = strlen((*root)->data);
+        char *word = malloc(length_data * sizeof(char));
+        strcpy(word, (*root)->data);
+
+        // Reordering the tree and freeing the node that has to be deleted
+        Node *tmp = (*root);
+        (*root) = (*root)->left;
+        free(tmp);
+
+        return word;
+    }
+}
+
 Node* deleteNode(Node *root, char *word) {
     if (root->right != NULL) {
         return deleteNode(root->right, word);
