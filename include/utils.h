@@ -32,5 +32,12 @@ bool scan_line(char* message, char* format, void* buffer);
 bool exists(char *filepath);
 void flush_input();
 int read_int_option(const char* msg);
+
+// AUX FUNCTIONS
+char *delete_letter_from_position(char* word, int position);
+char *swapping_letters(char *word, int position);
+char *insert_letter_into_pos(char *word, const char *character, int position);
+bool is_empty_word(char *word);
+
 #endif /* UTILS_H */
 

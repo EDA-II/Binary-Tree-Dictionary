@@ -1,4 +1,5 @@
 #include "generate_candidates.h"
+#include "utils.h"
 
 void candidates_by_substitution(char *word, Tree *dictionary, Tree *suggestions) {
 

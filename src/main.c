@@ -30,6 +30,7 @@ void load_dictionary(Tree *tree, char *filepath) {
             line[strcspn(line, "\r")] = 0;
 //            printf("- %s \n",line);
             char *word = line;
+            str_to_lowercase(word);
 
             if (insert_into_tree(tree, word)) {
                 printf("%s\n", word);
@@ -79,6 +80,7 @@ void menu_find_word(Tree *tree) {
         scan_line("Enter word: ", "%s", word);
         str_to_lowercase(word);
 
+
         if (find_in_tree(tree, word) != NULL) {
             printf("%s Found!\n", word);
         } else {
@@ -96,6 +98,11 @@ void menu_find_word(Tree *tree) {
 void menu_add_new_word(Tree *tree) {
     char word[MAX_WORD_LENGTH];
     scan_line("Enter word: ", "%s", word);
+
+    if (is_empty_word(word)){
+        printf("No empty words allowed!");
+        return;
+    }
 
     str_to_lowercase(word);
 
@@ -202,10 +209,10 @@ void main_menu(Tree *tree) {
                 check_spelling_menu(tree);
                 break;
             case PRE_ORDER: // print the whole dictionary pre order
-                 printf("TO DO!\n\n");;
+                printPreOrder(tree->root);
                 break;
             case POST_ORDER: // print the whole dictionary post order
-                printf("TO DO!\n\n");
+                printPostOrder(tree->root);
                 break;
             case EXIT: // Exit the program
                 printf("Closing The Application...\n");
@@ -221,6 +228,7 @@ int main(int argc, char *argv[]) {
 
     Tree T;
     init_tree(&T);
+    printf("bbb->xxx %d\n", strcmp("bbb","xxx"));
 
     char file_name[MAX_PATH_LENGTH];
     strcpy(file_name, "");

@@ -14,20 +14,8 @@ void init_tree(Tree *t) {
 
 void clearPostOrder(Node *node) {
     // Base case: the node is a leaf
-    if (node->left == NULL && node->right == NULL) {
-       free(node);
-    }
-
-    // Recursive Case
-    else {
-       // Delete the whole left branch
-       if (node->left != NULL){
-           clearPostOrder(node->left);
-       }
-       // Delete the whole right branch
-       if (node->right != NULL){
-           clearPostOrder(node->right);
-       }
+    if (node == NULL) {
+        return;
     }
 }
 
@@ -53,9 +41,9 @@ Node *insertNode(Node *node, char *word) {
         node = createNode(word);
     } else { // Recursive case:
         if (strcmp(word, node->data) > 0) { // Element we want to insert is greater than the current root of the subtree (word > node->data)
-            return insertNode(node->right, word);
+            node->right = insertNode(node->right, word);
         } else if (strcmp(word, node->data) < 0) { // Element we want to insert is lower than the current root of the subtree (word < node->data)
-            return insertNode(node->left, word);
+            node->left = insertNode(node->left, word);
         }
     }
 
@@ -63,14 +51,14 @@ Node *insertNode(Node *node, char *word) {
 }
 
 Node *findNode(Node *node, char *word) {
-    if (node == NULL){ // Base case 1: the node is not found.
+    if (node == NULL) { // Base case 1: the node is not found.
         return NULL;
     } else {
         if (strcmp(word, node->data) == 0) { // Base case 2: We find the node
             return node;
         }
         // Recursive case:
-        else if (strcmp(word, node->left->data) > 0) {
+        else if (strcmp(word, node->data) > 0) {
             return findNode(node->right, word);
         } else {
             return findNode(node->left, word);
@@ -80,7 +68,8 @@ Node *findNode(Node *node, char *word) {
 
 bool insert_into_tree(Tree *t, char *word) {
     if (findNode(t->root, word) == NULL) { // The word is not in the tree
-        insertNode(t->root, word);
+        t->root = insertNode(t->root, word);
+        t->size++;
 
         return TRUE;
     } else { // The word is already in the tree
@@ -127,7 +116,10 @@ void printInOrder(Node *node) {
 char *find_in_tree(Tree *t, char *word) {
 
     Node *elem = findNode(t->root, word);
-    return &elem->data;
+    if (elem == NULL){
+        return NULL;
+    }
+    return elem->data;
 }
 
 char* get_max(Node **root) {
@@ -147,36 +139,36 @@ char* get_max(Node **root) {
     }
 }
 
+
 Node* deleteNode(Node *root, char *word) {
-    if (root->right != NULL) {
-        return deleteNode(root->right, word);
-    } else {
-        Node* tmp = root;
-
-    }
-
-    Node* node_to_delete = findNode(root, word);
-    if (node_to_delete == NULL) {
+    if (root == NULL) {
         return NULL;
     } else {
-        Node* tmp = node_to_delete;
-        // The case where node is a leaf is implicit in these two conditions
-        if (node_to_delete->right == NULL) { // The node only has a left subtree
-            node_to_delete = node_to_delete->left;
-            free(tmp);
-        } else if (node_to_delete->left == NULL) { // The node only has a right subtree
-            node_to_delete = node_to_delete->right;
-            free(tmp);
+        if (strcmp(word, root->data) > 0) {
+            root->right = deleteNode(root->right, word);
+        } else if (strcmp(word, root->data) < 0)  {
+            root->left = deleteNode(root->left, word);
         } else {
-            // Use auxiliary function
-            char *new_data = get_max(&node_to_delete->left);
-            strcpy(node_to_delete->data, new_data);
+            Node* tmp = root;
+            // The case where node is a leaf is implicit in these two conditions
+            if (root->right == NULL) { // The node only has a left subtree
+                root = root->left;
+                free(tmp);
+            } else if (root->left == NULL) { // The node only has a right subtree
+                root = root->right;
+                free(tmp);
+            } else {
+                // Use auxiliary function
+                char *new_data = get_max(&root->left);
+                strcpy(root->data, new_data);
+                free(new_data);
+
+            }
         }
+        return root;
     }
-    return root;
-
-
 }
+
 
 int size_tree(Tree *t) {
     printf("Printing size...\n");
@@ -186,4 +178,3 @@ int size_tree(Tree *t) {
 void print_tree(Tree *t) {
     printInOrder(t->root);
 }
-
