@@ -225,7 +225,7 @@ void main_menu(Tree *tree) {
 
 
 int main(int argc, char *argv[]) {
-
+    int length = strlen("");
     Tree T;
     init_tree(&T);
     printf("bbb->xxx %d\n", strcmp("bbb","xxx"));

@@ -68,3 +68,75 @@ int read_int_option(const char *msg) {
 
     return option;
 }
+
+/**
+ * Pre: Parameter "position" must be an integer between zero and length of "word" plus one
+ * Post: Returns a string with an inserted character.
+ */
+
+char *insert_letter_into_pos(char *word, const char *character, int position) {
+    int new_length = strlen(word) + 1;
+    char *tmp_word = malloc(new_length * sizeof(char));
+    char *word_tmp = word;
+
+    for(int i = 0; i < new_length; i++ ) {
+        if (i == position) {
+            tmp_word[i] = *character;
+        } else {
+            tmp_word[i] = *word_tmp;
+            word_tmp++;
+        }
+    }
+
+    return tmp_word;
+}
+
+
+/**
+ * Pre: Parameter "position" must be length of "word" minus 2
+ * Post: Function returns a string with two of its characters swapped (character i and i+1).
+ */
+
+char *swapping_letters(char *word, int position){
+    char *return_word = malloc(strlen(word) * sizeof(char));
+    strcpy(return_word, word);
+
+    char tmp_char = return_word[position];
+    return_word[position] = return_word[position + 1];
+    return_word[position + 1] = tmp_char;
+
+    return return_word;
+}
+
+/**
+ * Pre: Parameter "position" must be a value between zero and "word" length minus 1.
+ * Post: Function returns a string without the letter indicated by the position index.
+ */
+char *delete_letter_from_position(char* word, int position){
+    int new_length = strlen(word) - 1;
+    char *tmp_word = malloc(new_length * sizeof(char));
+    char *word_tmp = word;
+    for (int iter_index = 0, word_index = 0; iter_index <= new_length; iter_index++) {
+        if (iter_index == position) {
+            word_tmp++;
+        } else {
+            tmp_word[word_index] = *word_tmp;
+            word_tmp++;
+            word_index += 1;
+        }
+    }
+
+    return tmp_word;
+}
+
+bool is_empty_word(char *word) {
+    int length_word = strlen(word);
+
+    for (int i = 0; i < length_word; i++) {
+        if (word[i] != ' ') {
+            return false;
+        }
+    }
+
+    return true;
+}

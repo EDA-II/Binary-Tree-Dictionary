@@ -17,6 +17,9 @@ void clearPostOrder(Node *node) {
     if (node == NULL) {
         return;
     }
+    clearPostOrder(node->left);
+    clearPostOrder(node->right);
+    free(node);
 }
 
 void clear_tree(Tree *t) {
